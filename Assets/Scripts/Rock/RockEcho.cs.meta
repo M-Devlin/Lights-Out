@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bd0a30156f802be4fa2526a23db0de72
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - rockSonarEmitter: {fileID: 8168245235031508198, guid: c5a5b05686453c54fb1db6363c66cda8,
+      type: 3}
+  - rSonarEmitCoords: {instanceID: 0}
+  - pingColor: {fileID: 2100000, guid: 60e713e80750a9a4f8816d752ba9f616, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
