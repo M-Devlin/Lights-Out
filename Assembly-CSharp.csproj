@@ -53,7 +53,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\DemoUI\Scannable.cs" />
      <Compile Include="Assets\Destroy.cs" />
      <Compile Include="Assets\emitterEmit.cs" />
      <Compile Include="Assets\SampleScenes\Menu\Scripts\MenuSceneLoader.cs" />
@@ -64,29 +63,24 @@
      <Compile Include="Assets\SampleScenes\Scripts\ParticleSceneControls.cs" />
      <Compile Include="Assets\SampleScenes\Scripts\PlaceTargetWithMouse.cs" />
      <Compile Include="Assets\SampleScenes\Scripts\SlowMoButton.cs" />
-     <Compile Include="Assets\Scripts\EmitterEmit.cs" />
      <Compile Include="Assets\Scripts\Monster\MonsterInvestigate.cs" />
      <Compile Include="Assets\Scripts\Monster\MonsterPingExpire.cs" />
+     <Compile Include="Assets\Scripts\Monster\MonsterSig.cs" />
      <Compile Include="Assets\Scripts\Monster\MonsterSonar.cs" />
      <Compile Include="Assets\Scripts\Rock\RockDestroy.cs" />
      <Compile Include="Assets\Scripts\Rock\RockEcho.cs" />
-     <Compile Include="Assets\Scripts\RockProjectile.cs" />
-     <Compile Include="Assets\Scripts\SonarEmit.cs" />
-     <Compile Include="Assets\Scripts\SonarOriginDestroy.cs" />
+     <Compile Include="Assets\Scripts\Rock\RockProjectile.cs" />
+     <Compile Include="Assets\Scripts\Sonar\ImprovedSonarPulse.cs" />
+     <Compile Include="Assets\Scripts\Sonar\RenderDepth.cs" />
+     <Compile Include="Assets\Scripts\Sonar\SonarEmit.cs" />
+     <Compile Include="Assets\Scripts\Sonar\SonarOriginDespawn.cs" />
+     <Compile Include="Assets\Scripts\Sonar\SonarOriginDestroy.cs" />
      <Compile Include="Assets\Scripts\SphereMoveTo.cs" />
      <Compile Include="Assets\SetDepthTexture.cs" />
-     <Compile Include="Assets\Shaders\Sonar\ImprovedSonarPulse.cs" />
-     <Compile Include="Assets\Shaders\Sonar\MonsterSig.cs" />
-     <Compile Include="Assets\Shaders\Sonar\RenderDepth.cs" />
-     <Compile Include="Assets\Shaders\Sonar\SonarOriginDespawn.cs" />
      <Compile Include="Assets\Shaders\Sonar\SonarPulseTravel.cs" />
-     <Compile Include="Assets\SonarFx\SonarFx.cs" />
-     <Compile Include="Assets\SonarFx\SonarFxSwitcher.cs" />
      <None Include="Assets\Shaders\SonarShader\ScannerEffect.shader" />
      <None Include="Assets\Shaders\SonarShader\DepthShader.shader" />
      <None Include="Assets\Shaders\ParticleFade.shader" />
-     <None Include="Assets\SonarFx\Shader\SonarFx.shader" />
-     <None Include="Assets\SonarFx\Shader\SonarSweep.shader" />
      <None Include="Assets\SampleScenes\Shaders\Skybox-Procedural.shader" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>D:/Projects/Games/Game Projects/Lights Out/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
