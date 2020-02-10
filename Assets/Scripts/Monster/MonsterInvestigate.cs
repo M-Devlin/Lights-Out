@@ -16,37 +16,43 @@ public class MonsterInvestigate : MonoBehaviour
 
     private NavMeshAgent agent;
     private float timer;
-    //bool _idling;
+    bool _idling;
 
+    public Material pingColor;
     ImprovedSonarPulse sonarEmitter;
+
 
     // Use this for initialization
     void Start()
     {
-        //_idling = true;
+
+        _idling = true;
         agent = GetComponent<NavMeshAgent>();
         timer = wanderTimer;
 
+        MonsterIdle();
+    }
+
+    IEnumerator MonsterIdle()
+    {
+        GameObject camera = GameObject.Find("FirstPersonCharacter");
+        ImprovedSonarPulse improvedSonarPulse = camera.GetComponent<ImprovedSonarPulse>();
+
+        while (_idling == true)
+        {
+
+            yield return new WaitForSeconds(0.13f);
+            improvedSonarPulse.MakeSonarPing(gameObject.transform.position, pingColor);
+            yield return new WaitForSeconds(0.13f);
+            improvedSonarPulse.MakeSonarPing(gameObject.transform.position, pingColor);
+            Debug.Log("Grr...");
+            yield return new WaitForSeconds(3f);
+        }
 
     }
 
-    // Update is called once per frame
-    //private IEnumerator MonsterIdle()
-    //{
 
-    //    while (_idling == true)
-    //    {
-
-
-
-    //        yield return new WaitForSeconds(0.13f);
-    //        Instantiate(MonsterEcho, gameObject.transform.position, target.rotation);
-    //        Debug.Log("Grr...");
-    //        yield return new WaitForSeconds(3f);
-    //    }
-
-    //}
-
+    //Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
@@ -58,12 +64,11 @@ public class MonsterInvestigate : MonoBehaviour
             //agent.SetDestination(newPos);
             timer = 0;
         }
+        
     }
 
     IEnumerator FollowTargetWithRotation(GameObject lastPing, float distanceToStop, float speed)
     {
-
-
 
 
         while (Vector3.Distance(transform.position, lastPing.transform.position) > distanceToStop)
@@ -75,6 +80,11 @@ public class MonsterInvestigate : MonoBehaviour
                 transform.LookAt(targetPosition);
                 //GameObject.AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
                 transform.position = Vector3.MoveTowards(transform.position, lastPing.transform.position, Time.deltaTime * 3);
+            }
+            else
+            {
+                _idling = true;
+                MonsterIdle();
             }
 
             yield return null;
@@ -95,7 +105,6 @@ public class MonsterInvestigate : MonoBehaviour
     //}
 
 
-    //The Below is now obsolete since the implementaion of what I'm going to refer to as Sonar 3.0 (using code borrowed from an adaptation of No Man's Sky's topology scanner shader)
     void OnTriggerEnter(Collider sound)
     {
 
@@ -104,7 +113,13 @@ public class MonsterInvestigate : MonoBehaviour
 
         if (sound.gameObject.tag.Equals("Sound") == true)
         {
-            Instantiate(MonsterEcho, gameObject.transform.position, target.rotation);
+
+            _idling = false;
+
+            GameObject camera = GameObject.Find("FirstPersonCharacter");
+            ImprovedSonarPulse improvedSonarPulse = camera.GetComponent<ImprovedSonarPulse>();
+
+            improvedSonarPulse.MakeSonarPing(gameObject.transform.position, pingColor);
             Debug.Log("Wuzzat?");
 
             StartCoroutine(FollowTargetWithRotation(lastPing, 1, 5));

@@ -7,7 +7,7 @@ using UnityEngine;
 public class ImprovedSonarPulse : MonoBehaviour {
 
     public GameObject[] sonarOrigins;
-    public Vector3 lastPing;
+    
     public Transform sonarEffectOrigin;
     public GameObject playerSonarCollider;
     public GameObject pSonarColliderOrigin;
@@ -17,14 +17,16 @@ public class ImprovedSonarPulse : MonoBehaviour {
     public Rigidbody rock;
     public Transform rockSpawn;
 
-    public Material effectMaterial;
+    public Material playerPingEffect;
+    
     public float pulseDistance;
     public float maxPulseDistance = 30f;
     public float fadingScanWidth;
 
 
     private Camera _camera;
-
+    public Material effectMaterial;
+    private Vector3 lastPing;
 
     bool stopRunningTheFuckingPingScript;
 
@@ -51,10 +53,12 @@ public class ImprovedSonarPulse : MonoBehaviour {
         //Press F to sonar
         if (Input.GetKeyDown(KeyCode.F))
         {
+            effectMaterial = playerPingEffect;
                        
             //Spawn Sonar Collider Sphere
             Instantiate(playerSonarCollider, playerSonarOriginSpawner.position, playerSonarOriginSpawner.rotation);
-            //spawn emitter object for reverb particles
+            //spawn emitter object for reverb particles (Yeah yeah I know sound is a wave not a particle, but it was a hell of a lot easier to use a shit-ton of particles
+            //with bounce physics than trying to figure out how to make an image shader bounce off geometry, so lick me.)
             Instantiate(sonarSweepEmitter, playerSonarOriginSpawner.position, playerSonarOriginSpawner.rotation);
             //make the actual sweep effect happen
 
@@ -66,7 +70,7 @@ public class ImprovedSonarPulse : MonoBehaviour {
             
         }
 
-        //This is the old Mouse click functionality. I'm hanging on to this in case I need it later.
+        //This is the old Mouse click functionality. I'm hanging on to this as a reference in case I need it later.
 
         //[known issue] multiple instances of the pulse effect will interupt the previous effect
         //if (Input.GetMouseButtonDown(0))
@@ -88,6 +92,8 @@ public class ImprovedSonarPulse : MonoBehaviour {
 
     //this should probably take a position coordinate as an argument
     //maybe pass in a sound type as well, so it knows what color to make the sweep
+
+    //maybe make this so that it runs asyncronously? I think IEnumerator does that.
     public void MakeSonarPing(Vector3 pingCoord, Material pingColor)
     {
 
@@ -114,6 +120,10 @@ public class ImprovedSonarPulse : MonoBehaviour {
     public IEnumerator Emit()
     {
 
+        //pulses are currently interruptable. while pulses can happen in multiple locations, they cannot happen in multiple locations SIMULTANEOUSLY.
+        //if a pulse effect is currently in progress and another pulse is created, that first pulse is interrupted and the new pulse takes over at it's own point of origin.
+        //when this happens, the while loop does not technically break, and the pulse speed continues getting faster until it reaches completion, at which point it resets back to it's default speed.
+        //basically, at some point, I will probably have to rewrite this while loop, in order to correct this.
         while (_pinging == true)
         {
             //Pulse movement 
@@ -169,8 +179,8 @@ public class ImprovedSonarPulse : MonoBehaviour {
     //[ImageEffectOpaque]
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
+        effectMaterial.SetVector("_WorldSpaceScannerPos", lastPing);
  
-
         effectMaterial.SetFloat("_ScanDistance", pulseDistance);
         RaycastCornerBlit(source, destination, effectMaterial);
 

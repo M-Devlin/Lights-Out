@@ -72,8 +72,8 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ScanDistance: 55.17773
-    - _ScanWidth: -0.83363295
+    - _ScanDistance: 54.96371
+    - _ScanWidth: -0.83650386
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -83,6 +83,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HBarColor: {r: 0.5, g: 0.5, b: 0.5, a: 0}
-    - _LeadColor: {r: 0.64907444, g: 0.84727424, b: 0.9622642, a: 0}
-    - _MidColor: {r: 0.17123532, g: 0.7726857, b: 0.9811321, a: 0}
-    - _TrailColor: {r: 0.21751513, g: 0.35460776, b: 0.9811321, a: 0}
+    - _LeadColor: {r: 0.6226415, g: 0.54319686, b: 0.43173727, a: 0}
+    - _MidColor: {r: 0.6037736, g: 0.45074508, b: 0.09967959, a: 0}
+    - _TrailColor: {r: 0.49056602, g: 0.3176161, b: 0, a: 0}

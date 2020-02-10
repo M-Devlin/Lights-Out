@@ -40,11 +40,11 @@ Material:
     - _MaxDistance: 50
     - _MaxScanDistance: 30
     - _ScanDistance: 0
-    - _ScanWidth: -0.89863026
+    - _ScanWidth: 25
     - _Width: 16
     m_Colors:
     - _FadedColor: {r: 1, g: 1, b: 1, a: 0}
     - _HBarColor: {r: 0, g: 0, b: 0, a: 0}
-    - _LeadColor: {r: 0.9849075, g: 1, b: 0.28627455, a: 0}
-    - _MidColor: {r: 0.99215686, g: 0.86975706, b: 0.01960787, a: 0}
-    - _TrailColor: {r: 0.8679245, g: 0.6647004, b: 0.020469915, a: 0}
+    - _LeadColor: {r: 0.71976286, g: 1, b: 0.28627455, a: 0}
+    - _MidColor: {r: 0, g: 0.7169812, b: 0.2601947, a: 0}
+    - _TrailColor: {r: 0, g: 0.4528302, b: 0.018010302, a: 0}
