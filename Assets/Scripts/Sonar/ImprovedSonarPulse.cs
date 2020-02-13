@@ -96,7 +96,6 @@ public class ImprovedSonarPulse : MonoBehaviour {
     //maybe make this so that it runs asyncronously? I think IEnumerator does that.
     public void MakeSonarPing(Vector3 pingCoord, Material pingColor)
     {
-
         //get the object type as well (probably object Tag, actually) and set effectMaterial to the material/color associated with that type of sound.
         //Player sounds should be GOLD, Monsters sounds should be RED, water sounds should be BLUE, and so on.
         effectMaterial = pingColor;

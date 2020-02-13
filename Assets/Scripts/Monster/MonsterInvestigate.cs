@@ -30,11 +30,29 @@ public class MonsterInvestigate : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         timer = wanderTimer;
 
-        MonsterIdle();
+        StartCoroutine(MonsterIdle());
     }
+       
+    //Update is called once per frame
+    void Update()
+    {
+        timer += Time.deltaTime;
+
+        if (timer >= wanderTimer)
+        {
+            //sonarEmitter.Emit();
+            //Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
+            //agent.SetDestination(newPos);
+            timer = 0;
+        }
+
+
+    }
+
 
     IEnumerator MonsterIdle()
     {
+
         GameObject camera = GameObject.Find("FirstPersonCharacter");
         ImprovedSonarPulse improvedSonarPulse = camera.GetComponent<ImprovedSonarPulse>();
 
@@ -51,25 +69,9 @@ public class MonsterInvestigate : MonoBehaviour
 
     }
 
-
-    //Update is called once per frame
-    void Update()
-    {
-        timer += Time.deltaTime;
-
-        if (timer >= wanderTimer)
-        {
-            //sonarEmitter.Emit();
-            //Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
-            //agent.SetDestination(newPos);
-            timer = 0;
-        }
-        
-    }
-
     IEnumerator FollowTargetWithRotation(GameObject lastPing, float distanceToStop, float speed)
     {
-
+        
 
         while (Vector3.Distance(transform.position, lastPing.transform.position) > distanceToStop)
         {
@@ -81,11 +83,12 @@ public class MonsterInvestigate : MonoBehaviour
                 //GameObject.AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
                 transform.position = Vector3.MoveTowards(transform.position, lastPing.transform.position, Time.deltaTime * 3);
             }
-            else
-            {
-                _idling = true;
-                MonsterIdle();
-            }
+            //This will probably cause the monster to immediately break pursuit and return to idle
+            //else
+            //{
+            //    _idling = true;
+            //    MonsterIdle();
+            //}
 
             yield return null;
         }
