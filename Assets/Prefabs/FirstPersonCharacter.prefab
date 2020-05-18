@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2385560813407095411}
   - component: {fileID: 2385560813715225551}
   - component: {fileID: 2385560813715225544}
+  - component: {fileID: 8325252424032302067}
+  - component: {fileID: 400368822139517371}
   - component: {fileID: 2385560813715225550}
   - component: {fileID: 2385560813715225549}
   m_Layer: 0
@@ -89,21 +91,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a20493b6308f045970ab940bf1d46b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sonarOrigins:
+  - {fileID: 0}
   sonarEffectOrigin: {fileID: 2385560813407095411}
   playerSonarCollider: {fileID: 1765102939353990, guid: de4d77ec4896de342b1a1fae23a8dab3,
     type: 3}
-  playerSonarColliderOrigin: {fileID: 1728303208169530, guid: f7d964881cc2bf749b54fcbfdd2b3fd1,
-    type: 3}
+  pSonarColliderOrigin: {fileID: 0}
   sonarSweepEmitter: {fileID: 109914200616656615, guid: c01a3f059bd0fe24fafbccaefcb7eead,
     type: 3}
   playerSonarOriginSpawner: {fileID: 0}
   rock: {fileID: 54768164666982212, guid: a0ec657945ca99f4ea790fa94e120577, type: 3}
   rockSpawn: {fileID: 2381049503053180858}
-  effectMaterial: {fileID: 2100000, guid: e5122fb9cec89c74fb673757dcbd27ec, type: 2}
+  playerPingEffect: {fileID: 0}
   pulseDistance: 0
   maxPulseDistance: 30
   fadingScanWidth: 25
-  sonarParticles: {fileID: 0}
+  effectMaterial: {fileID: 2100000, guid: e5122fb9cec89c74fb673757dcbd27ec, type: 2}
+--- !u!114 &8325252424032302067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2385560813715225548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb2ce7c31586f6c42bec18bdac34c831, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  material: {fileID: 2100000, guid: cc278036f5a93834a8e2990623b706ff, type: 2}
+  points: []
+--- !u!114 &400368822139517371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2385560813715225548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b240ea019fffe1b48942698b39896ef8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: {fileID: 8325252424032302067}
+  sonarMaterial: {fileID: 0}
+  _points: []
 --- !u!81 &2385560813715225550
 AudioListener:
   m_ObjectHideFlags: 0

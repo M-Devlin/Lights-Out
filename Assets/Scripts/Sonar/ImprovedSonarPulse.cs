@@ -54,25 +54,31 @@ public class ImprovedSonarPulse : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.F))
         {
             effectMaterial = playerPingEffect;
-                       
-            //Spawn Sonar Collider Sphere
-            Instantiate(playerSonarCollider, playerSonarOriginSpawner.position, playerSonarOriginSpawner.rotation);
-            //spawn emitter object for reverb particles (Yeah yeah I know sound is a wave not a particle, but it was a hell of a lot easier to use a shit-ton of particles
-            //with bounce physics than trying to figure out how to make an image shader bounce off geometry, so lick me.)
-            Instantiate(sonarSweepEmitter, playerSonarOriginSpawner.position, playerSonarOriginSpawner.rotation);
-            //make the actual sweep effect happen
 
+            // Spawn Sonar Collider Sphere. This will tell the game if anything "hears" the
+            // player or any object thrown by the player
+            Instantiate(playerSonarCollider, playerSonarOriginSpawner.position, playerSonarOriginSpawner.rotation);
+
+            // spawn emitter object for reverb particles (Yeah yeah I know sound is a wave
+            // not a particle, but it was a hell of a lot easier to use a shit-ton of
+            // particles with bounce physics to represent reverb than trying to wrap my brain
+            // around how to make an image shader bounce off geometry, so lick me.)
+            Instantiate(sonarSweepEmitter, playerSonarOriginSpawner.position, playerSonarOriginSpawner.rotation);
+            
+            //Get the coordinates from the very last location that the player emitted a sound
             lastPing.Set(playerSonarOriginSpawner.transform.position.x, 
                          playerSonarOriginSpawner.transform.position.y,
                          playerSonarOriginSpawner.transform.position.z);
 
+            // make the actual sweep effect happen
             MakeSonarPing(lastPing, effectMaterial);
             
         }
 
-        //This is the old Mouse click functionality. I'm hanging on to this as a reference in case I need it later.
+        //This is the old Mouse click functionality. It used a ray cast to make sonar pings
+        //happen at different locations on the map. I'm hanging on to this as a reference
+        //in case I need it later.
 
-        //[known issue] multiple instances of the pulse effect will interupt the previous effect
         //if (Input.GetMouseButtonDown(0))
         //{
         //    Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
@@ -111,7 +117,7 @@ public class ImprovedSonarPulse : MonoBehaviour {
     }
 
     void OnEnable()
-    { 
+    {
         _camera = GetComponent<Camera>();
         _camera.depthTextureMode = DepthTextureMode.Depth;
     }
@@ -119,35 +125,55 @@ public class ImprovedSonarPulse : MonoBehaviour {
     public IEnumerator Emit()
     {
 
-        //pulses are currently interruptable. while pulses can happen in multiple locations, they cannot happen in multiple locations SIMULTANEOUSLY.
-        //if a pulse effect is currently in progress and another pulse is created, that first pulse is interrupted and the new pulse takes over at it's own point of origin.
-        //when this happens, the while loop does not technically break, and the pulse speed continues getting faster until it reaches completion, at which point it resets back to it's default speed.
-        //basically, at some point, I will probably have to rewrite this while loop, in order to correct this.
+        //Pulses are currently interruptable and, while pulses can happen in multiple locations,
+        //they cannot happen in multiple locations SIMULTANEOUSLY. If a pulse effect is currently
+        //in progress and another pulse is created, that first pulse is interrupted to create a
+        //new one at it's own point of origin. When this happens, the while loop does not
+        //technically break (because _pinging would still technically be true), and the pulse
+        //speed continues getting faster until the pulse reaches it's max size, at which point it
+        //resets back to it's default speed. Basically, at some point, I will probably have to
+        //rewrite this while loop, in order to correct this problem.
         while (_pinging == true)
         {
             //Pulse movement 
             pulseDistance += Time.deltaTime * 60;
 
             //Light up any monster hit by sonar pulse
-            foreach (MonsterSig MSig in _monsterSigs)
-            {
+            //
+            //Honestly, this probably won't make it to the final game because of two reasons:
+            //
+            // 1. The monsters already create their own noises and sonar signatures so the player
+            // would already be able to see them as long as the monster makes noise.
+            //
+            // 2. If the players sonar passes over a monster, the monster will react accordingly
+            // having "heard" the player. Monster makes an alert sound and a sonar pulse is cast
+            // which the player can see. Thus there's no real need for the monster to produce an
+            // afterimage when it's detected by the player. They'll already know it's there. 
+            //
+            // Again, I'll still hang on to the code, as I may still use it to mark objective in
+            // the future. Maybe.
+            //
+            //foreach (MonsterSig MSig in _monsterSigs)
+            //{
 
-                //stops the fucking Ping() script from running infinitely
-                if (stopRunningTheFuckingPingScript == false)
-                {
-                    //if the sonarPulse "hits" an object that would return a "signature" (i.e. a monster or objective item)
-                    if (Vector3.Distance(sonarEffectOrigin.transform.position, MSig.transform.position) <= pulseDistance)
-                    {
-                        //var lastPing = PlayerSonarOrigin.transform; 
-                         
-                        stopRunningTheFuckingPingScript = true;
-                        //_alertMonster.FollowTargetWithRotation(lastPing, 1, 5);
-                        MSig.Ping();
-                    }
-                }
-            }
+            //    //stops the fucking Ping() script from running infinitely
+            //    if (stopRunningTheFuckingPingScript == false)
+            //    {
+            //        //if the sonarPulse "hits" an object that would return a "signature" (i.e. a monster or objective item)
+            //        if (Vector3.Distance(sonarEffectOrigin.transform.position, MSig.transform.position) <= pulseDistance)
+            //        {
+            //            //var lastPing = PlayerSonarOrigin.transform; 
 
-            //Why couldn't I fade the opacity on this again? Why was diminishing the width to zero the better option?
+            //            stopRunningTheFuckingPingScript = true;
+            //            //_alertMonster.FollowTargetWithRotation(lastPing, 1, 5);
+            //            MSig.Ping();
+            //        }
+            //    }
+            //}
+
+            //Why couldn't I fade the opacity on this again? Why was diminishing the width to zero the better option? -Past Matt
+            //
+            //Because, as of now, we still suck at writing shaders - Future Matt
             if (pulseDistance >= maxPulseDistance)
             {
 
@@ -179,7 +205,7 @@ public class ImprovedSonarPulse : MonoBehaviour {
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         effectMaterial.SetVector("_WorldSpaceScannerPos", lastPing);
- 
+
         effectMaterial.SetFloat("_ScanDistance", pulseDistance);
         RaycastCornerBlit(source, destination, effectMaterial);
 
@@ -189,7 +215,7 @@ public class ImprovedSonarPulse : MonoBehaviour {
     public void RaycastCornerBlit(RenderTexture source, RenderTexture destination, Material mat)
     {
 
-        //compute frustum corners. words.
+        //compute frustum corners. yeah those are words.
         float camFar = _camera.farClipPlane;
         float camFov = _camera.fieldOfView;
         float camAspect = _camera.aspect;
@@ -247,5 +273,5 @@ public class ImprovedSonarPulse : MonoBehaviour {
         GL.End();
         GL.PopMatrix();
     }
-    
+
 }

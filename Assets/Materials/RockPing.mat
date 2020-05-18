@@ -72,8 +72,8 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ScanDistance: 54.88373
-    - _ScanWidth: -0.86226934
+    - _ScanDistance: 55.17113
+    - _ScanWidth: -0.47474697
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
